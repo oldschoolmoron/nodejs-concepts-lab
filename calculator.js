@@ -1,5 +1,18 @@
+// process → a built-in Node.js object that gives info about the running process (your script).
+
+//.argv → stands for argument vector (fancy word for “list of arguments”).
+
 const args = process.argv.slice(2);
 const command = args[0];
+
+
+//BODMASS branch don't parse numbers
+if(command === "bodmass"){
+  const expression = args.slice(1).join(" "); //allow without quotes too
+  console.log("Result (BODMASS) : ", eval(expression));
+}
+
+//otherwise parse numbers
 const num = args.slice(1).map(Number);
 // const num1 = parseInt(args[1]);
 // const num2 = parseInt(args[2]);
@@ -10,10 +23,6 @@ const num = args.slice(1).map(Number);
 //   process.exit(1);
 // }
 
-if(num.some(isNaN)){
-  console.log("Please provide valid numbers");
-  process.exit(1);
-}
 
 //This works but is verbose. If you add 20 operations, you’ll have 20 case blocks.
 // switch(command){
@@ -36,14 +45,15 @@ const operations = {
   sub : (a,b) => a - b,
   mul : (...a) => a.reduce((acc,b) => acc * b, 1), //
   pow : (a,b) => a ** b,
+  mod : (a,b) => a % b,
+  sqrt : (a) => Math.sqrt(a),
   div : (a,b) => {
     if(b === 0){
       console.log("Error! Division by zero!");
       process.exit(1);
     }
     return a / b;
-  }
-  
+  } 
 };
 
 if(!operations[command]){
@@ -53,6 +63,15 @@ if(!operations[command]){
 
 // const rseult = operations[command](num1, num2);
 const rseult = operations[command](...num) //spread into f(n)
-console.log("Result : ", rseult);
 
+if(num.some(isNaN)){
+  console.log("Please provide valid numbers");
+  process.exit(1);
+}else{
+  console.log("Result : ", rseult);
+}
 
+// Concepts used in this file:
+// 1. process.argv → to read command-line arguments
+// 2. Array.reduce() → to handle multiple numbers in operations
+// 3. Expression parser (using eval) → to support BODMAS evaluation
