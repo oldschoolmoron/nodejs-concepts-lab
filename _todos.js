@@ -3,6 +3,7 @@
 const fs = require("fs");
 const { Command } = require('commander');
 const program = new Command();
+const filePath = "./todos.json"
 // Currently experimenting with commander.js basics
 program 
 .name("my-cli")
@@ -11,20 +12,17 @@ program
 .option('-d, --debug', 'O/P extra debudding information');
 
 program
-.command('count_sentence')
-.description("count the number of lines in a file")
-.argument("file", "file to count the numbers of lines")
-.action((file) => {
-  fs.readFile(file, 'utf-8', (err, data) =>{
-    if(err){
-      console.log(err)
-    }else{
-      const words = data.split(" ").length;
-      console.log(`There are ${words} words in this ${file}`);
-    }
-  })
+.command('add <todo>')
+.description("Add a new todo")
+.option('-f, --file <type>', 'specify file path', 'mytasks.json')
+.option('-t, --type <type>', 'specify the item type', 'default')
+.action((todo, options) => {
+  const data = fs.readFileSync(options.file, "utf-8");
+  const todos = JSON.parse(data || "[]");
+  todos.push({ text: todo, type: options.type})
+  fs.writeFileSync(options.file, JSON.stringify(todos, null, 2));
+  console.log(`Added: "${todo}" to ${options.file}`);
 })
-
 
 program.parse();
 
