@@ -2,7 +2,6 @@
 
 const fs = require("fs");
 const { Command } = require('commander');
-
 const program = new Command();
 // Currently experimenting with commander.js basics
 program 
@@ -11,6 +10,22 @@ program
 .version("1.2.3")
 .option('-d, --debug', 'O/P extra debudding information');
 
+program
+.command('count_sentence')
+.description("count the number of lines in a file")
+.argument("file", "file to count the numbers of lines")
+.action((file) => {
+  fs.readFile(file, 'utf-8', (err, data) =>{
+    if(err){
+      console.log(err)
+    }else{
+      const words = data.split(" ").length;
+      console.log(`There are ${words} words in this ${file}`);
+    }
+  })
+})
+
+
 program.parse();
 
 const options = program.opts();
@@ -18,6 +33,7 @@ const options = program.opts();
 if(options.debug) {
   console.log("Debug mode is ON, (extra logs will appear here in the future.");
 }
+
 
 //For reference - https://betterstack.com/community/guides/scaling-nodejs/commander-explained/?utm_source=chatgpt.com 
 
