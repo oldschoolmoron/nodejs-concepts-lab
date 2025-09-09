@@ -5,6 +5,9 @@
 const express = require('express');
 const app = express();
 
+//https://devdocs.io/express/
+app.use(express.json());
+
 // //route handlers 
 // app.get('/', function (req , res) {
 //   res.send("hello world");
@@ -66,7 +69,13 @@ app.get("/", function(req, res){
 
 //POST endpoint : used to send data to the server (usually to create a new resource)
 app.post("/", (req, res) => {
-
+  const isHealthy = req.body.isHealthy;
+  users[0].kidneys.push({
+    healthy: isHealthy
+  })
+  res.json({
+    msg: 'Done!'
+  })
 })
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
