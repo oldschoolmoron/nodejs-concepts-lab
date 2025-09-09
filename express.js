@@ -4,7 +4,7 @@
 
 const express = require('express');
 const app = express();
- 
+
 // //route handlers 
 // app.get('/', function (req , res) {
 //   res.send("hello world");
@@ -29,16 +29,47 @@ function addTwoNum(a, b){
   return a + b;
 }
 
-app.get("/sum", (req, res) => {
-  const a = Number(req.query.a); //s
-  const b = Number(req.query.b);
-  const ans = addTwoNum(a, b);
-  if(isNaN(a,b)) {
-    return res.send("Please provide valid number in query ?a=value1&b=value2")
+// app.get("/sum", (req, res) => {
+//   const a = Number(req.query.a); //s
+//   const b = Number(req.query.b);
+//   const ans = addTwoNum(a, b);
+//   if(isNaN(a,b)) {
+//     return res.send("Please provide valid number in query ?a=value1&b=value2")
+//   }
+//   res.send(ans);
+// })
+const users = [{
+  name : "userY",
+  kidneys : [{
+    healthy : false
+  }]
+}];
+
+// GET endpoint: used to retrieve data from the server (here, kidney stats)
+app.get("/", function(req, res){
+  const userYKidney = users[0].kidneys;
+  const numberOfKidneys = userYKidney.length;
+  let numberOfHealthyKidney = 0;
+  for (let i = 0; i < userYKidney.length; i++){
+    if(userYKidney[i].healthy){
+      numberOfHealthyKidney = numberOfHealthyKidney + 1;
+    }
   }
-  res.send(ans);
+
+  const numberOfUnHealthyKidney = numberOfKidneys - numberOfHealthyKidney;
+  res.json({
+    numberOfKidneys,
+    numberOfHealthyKidney,
+    numberOfUnHealthyKidney
+  })
 })
 
+//POST endpoint : used to send data to the server (usually to create a new resource)
+app.post("/", (req, res) => {
+
+})
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
+
+
