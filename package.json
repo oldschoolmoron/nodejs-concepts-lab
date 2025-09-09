@@ -9,5 +9,9 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "commander": "^14.0.0",
+    "express": "^5.1.0"
+  }
 }
