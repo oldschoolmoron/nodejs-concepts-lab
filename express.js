@@ -77,6 +77,15 @@ app.post("/", (req, res) => {
     msg: 'Done!'
   })
 })
+
+
+//PUT endpoint : used to update/replace existing data on the server (here, mark all kidneys unhealthy)
+app.put("/", function(req, res){
+  for(let i =0; i< users[0].kidneys.length; i++){
+    users[0].kidneys[i].healthy = false;
+  }
+  res.json({});
+})
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
