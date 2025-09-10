@@ -86,6 +86,20 @@ app.put("/", function(req, res){
   }
   res.json({});
 })
+
+app.delete("/", function(req, res){
+  const newKidneys = [];
+  for(let i =0; i< users[0].kidneys.length; i++){
+    newKidneys.push({
+      healthy : true
+    })
+  }
+  users[0].kidneys = newKidneys;
+  res.json({
+    "msg" : 'done!'
+  })
+})
+
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
