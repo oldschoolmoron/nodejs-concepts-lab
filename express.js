@@ -4,6 +4,7 @@
 
 const express = require('express');
 const app = express();
+const fs = require('fs');
 
 //https://devdocs.io/express/
 app.use(express.json());
@@ -115,6 +116,16 @@ function isThereAtleastOneUnhealtyKidney(){
   }
   return isleastOneUnhealtyKidney;
 }
+
+app.get('/files/:fileName', function(req, res){
+  const fname = req.params.fileName;
+  console.log(fname);
+  fs.readFile(fname, "utf-8", function(err, data){
+    res.json({
+      data
+    });
+  })
+}) 
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
