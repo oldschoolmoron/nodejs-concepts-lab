@@ -88,7 +88,8 @@ app.put("/", function(req, res){
 })
 
 app.delete("/", function(req, res){
-  const newKidneys = [];
+  if(isThereAtleastOneUnhealtyKidney()){
+    const newKidneys = [];
   for(let i =0; i< users[0].kidneys.length; i++){
     newKidneys.push({
       healthy : true
@@ -98,7 +99,22 @@ app.delete("/", function(req, res){
   res.json({
     "msg" : 'done!'
   })
+  }else {
+    res.status(411).json({
+      "msg" : "you have no unhealthy kidneys"
+    })
+  }
 })
+
+function isThereAtleastOneUnhealtyKidney(){
+  let isleastOneUnhealtyKidney = false;
+  for(let i =0; i < users[0].kidneys.length; i++){
+    if(!users[0].kidneys[i].healthy){
+      isleastOneUnhealtyKidney = true;
+    }
+  }
+  return isleastOneUnhealtyKidney;
+}
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
