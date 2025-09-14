@@ -24,7 +24,7 @@ app.get("/ride1", function(req, res){
 
 // after implementing middleware
 
-app.use(isOldEnoughMiddleware);
+// app.use(isOldEnoughMiddleware);
 
 function isOldEnoughMiddleware(req, res, next){
   const age = req.query.age;
@@ -44,4 +44,29 @@ app.get("/ride2", isOldEnoughMiddleware,  function(req, res){
   )
 })
 
+let request_count = 0;
+
+app.use(function(req, res, next){
+  request_count += 1;
+  next();
+  console.log("Path: ", req.path, "Count: ", request_count);
+})
+
+app.get('/dummyUser1', function(req, res){
+  res.json({
+    msg : "Created dummy user"
+  })
+})
+
+app.get('/dummyUser2', function(req, res){
+  res.json({
+    msg : "user2"
+  })
+})
+
+app.get('/requestCount', function(req, res){
+  res.json({
+    msg : request_count
+  })
+})
 app.listen(3000);
